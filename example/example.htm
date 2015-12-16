@@ -7,18 +7,26 @@
         .container { width: 20px }
 
         /* Styles to apply various CSS, based on classes */
-        .me                 { background: #a00; color: #fff; border: 2px dotted #000; padding: 1rem; position: relative;}
+        .me                 { background: #a00; color: #fff; border: 2px dotted #000; padding: 1rem; position: relative; margin-bottom: 1rem;}
+        .me h2              { margin: 0 0 0.5rem; }
         .me.gt-416          { background: #0a0; }
         .me.gt-192.lt-416   { background: #00a; }
 
+        .me.res-gt-416              { background: #0aa; }
+        .me.res-gt-192.res-lt-416   { background: #a0a; }
+
+        .me .again,
         .me .small,
         .me .medium,
-        .me .again,
         .me .large { display: none; }
 
         .me.lt-192 .small { display: block; }
         .me.gt-192.lt-416 .medium { display: block; }
         .me.gt-416 .large { display: block; }
+
+        .me.res-lt-192 .small { display: block; }
+        .me.res-gt-192.res-lt-416 .medium { display: block; }
+        .me.res-gt-416 .large { display: block; }
 
         .me.big .again { display: block; position: absolute; right: 0.7rem; top:0.7rem; padding: 0.5rem 1rem; }
 
@@ -37,23 +45,30 @@
 </p>
 
 <div class="container">
-    <div class="me">
+    <div class="me manual">
+        <h2>Manual</h2>
         <span class="small">Small &lt; 192px</span>
         <span class="medium">Medium 192px - 416px</span>
         <span class="large">Large &gt; 416px</span>
         <button class="again">Do it again!</button>
     </div>
-    <div class="me2" data-responsive>
-        Unobtrusively initialised
+    <div class="me" data-responsive>
+        <h2>Unobtrusive</h2>
+        <span class="small">Small &lt; 192px</span>
+        <span class="medium">Medium 192px - 416px</span>
+        <span class="large">Large &gt; 416px</span>
     </div>
-    <div class="me3" data-responsive="{baseClassName:'res',prefixClasses:true}">
-        Unobtrusively initialised with options
+    <div class="me" data-responsive="{baseClassName:'res',prefixClasses:true}">
+        <h2>Unobtrusive with options</h2>
+        <span class="small">Small &lt; 192px</span>
+        <span class="medium">Medium 192px - 416px</span>
+        <span class="large">Large &gt; 416px</span>
     </div>
 </div>
 
 <script>
 //  Responsive example, with a custom break class at 492px
-$(".me").responsive({
+$(".manual").responsive({
     breaks: {
         "big": {
             min: 492
