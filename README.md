@@ -53,15 +53,15 @@ This is useful, if you just want to emulate media queries, (eg: for IE8), or you
 
 You can pass the following options to `.responsive()` or via `data-responsive`:
 
-* baseClassName - a classname to prefix, you must also set prefixClasses to true, default value is "responsive"
-* prefixClasses - boolean to set if we prefix all classnames with baseClassName, default is false
-* prefixSeparator - string to set what to separate the prefix class names, default is "-"
-* addBaseClassNameToElement - boolean to choose if we add the baseClassName to our responsive element, default is true
-* applyStepClasses - boolean to see if we add the stepped class names, ie: gt-NUMBER, lt-NUMBER, default is true
-* step - how many pixels in between each step in step class names, default is 32
-* start - what width to start applying class names - default is 128
-* end - what width to stop applying class names, default is 960
-* breaks - object with custom breaks, default is {}
+* **baseClassName** - _string_ for a classname to prefix, you must also set prefixClasses to true, default value is "responsive"
+* **prefixClasses** - _boolean_ to set if we prefix all classnames with baseClassName, default is false
+* **prefixSeparator** - _string_ to set what to separate the prefix class names, default is "-"
+* **addBaseClassNameToElement** - _boolean_ to choose if we add the baseClassName to our responsive element, default is true
+* **applyStepClasses** - _boolean_ to see if we add the stepped class names, ie: gt-NUMBER, lt-NUMBER, default is true
+* **step** - _integer_ for how many pixels in between each step in step class names, default is 32
+* **start** - _integer_ for what width to start applying class names - default is 128
+* **end** - _integer_  for what width to stop applying class names, default is 960
+* **breaks** - _object_ with custom breaks, default is {}
 
 ### Custom breaks
 
