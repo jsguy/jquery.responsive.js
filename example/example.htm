@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery.responsive.js example</title>
+    <style>
+        .container { width: 20px }
+
+        /* Styles to apply various CSS, based on classes */
+        .me                 { background: #a00; color: #fff; border: 2px dotted #000; padding: 1rem; position: relative;}
+        .me.gt-416          { background: #0a0; }
+        .me.gt-192.lt-416   { background: #00a; }
+
+        .me .small,
+        .me .medium,
+        .me .again,
+        .me .large { display: none; }
+
+        .me.lt-192 .small { display: block; }
+        .me.gt-192.lt-416 .medium { display: block; }
+        .me.gt-416 .large { display: block; }
+
+        .me.gt-most .again { display: block; position: absolute; right: 0.7rem; top:0.7rem; padding: 0.5rem 1rem; }
+
+    </style>
+    <script src="jquery-1.11.3.js"></script>
+    <script src="../jquery.responsive.js"></script>
+</head>
+<body>
+
+<h1>jquery.responsive.js example</h1>
+<p>
+    This plugin allows you to make elements responsive, by dynamically adding class names to them based on width.
+</p>
+<p>
+    Below is an example that slowly grows wider, applying different classnames along the way.
+</p>
+
+<div class="container">
+    <div class="me">
+        <span class="small">Small &lt; 192px</span>
+        <span class="medium">Medium 192px - 416px</span>
+        <span class="large">Large &gt; 416px</span>
+        <button class="again">Do it again!</button>
+    </div>
+</div>
+
+<script>
+//  Responsive example, with a custom break class at 492px
+$(".me").responsive({
+    breaks: {
+        "gt-most": {
+            min: 492
+        }
+    }
+});
+
+var ani = function(){
+    $('.container').width("20px");
+    $(".container").animate({
+        width: "510px"
+    }, 3000);
+};
+
+ani();
+
+$('.again').click(ani);
+</script>
+
+</body>
+</html>
