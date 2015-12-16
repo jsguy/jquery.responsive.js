@@ -3,6 +3,8 @@
 
     Copyright (C) 2015 jsguy
 
+    https://github.com/jsguy/jquery.responsive.js
+
     MIT Licensed http://en.wikipedia.org/wiki/MIT_License
 */
 (function($){
