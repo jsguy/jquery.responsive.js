@@ -8,7 +8,7 @@ Include jQuery and jquery.responsive.js
 
 ```javascript
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-<script src="jquery.responsive.js"></script>
+<script src="//cdn.rawgit.com/jsguy/jquery.responsive.js/master/jquery.responsive.min.js"></script>
 ```
 
 Then initialise your element like so:
