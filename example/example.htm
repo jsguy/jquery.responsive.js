@@ -20,7 +20,7 @@
         .me.gt-192.lt-416 .medium { display: block; }
         .me.gt-416 .large { display: block; }
 
-        .me.gt-most .again { display: block; position: absolute; right: 0.7rem; top:0.7rem; padding: 0.5rem 1rem; }
+        .me.big .again { display: block; position: absolute; right: 0.7rem; top:0.7rem; padding: 0.5rem 1rem; }
 
     </style>
     <script src="jquery-1.11.3.js"></script>
@@ -43,13 +43,16 @@
         <span class="large">Large &gt; 416px</span>
         <button class="again">Do it again!</button>
     </div>
+    <div class="me2" data-responsive="">
+        Unobtrusively initialised
+    </div>
 </div>
 
 <script>
 //  Responsive example, with a custom break class at 492px
 $(".me").responsive({
     breaks: {
-        "gt-most": {
+        "big": {
             min: 492
         }
     }

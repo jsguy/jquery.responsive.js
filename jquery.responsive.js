@@ -41,15 +41,12 @@
             if(options.applyStepClasses) {
                 //  Remove old gt/lt classes
                 $el.removeClass(function(index, css){
-                    //return (css.match (/(^|\s)(lt|gt)-\d+\S+/g) || []).join(' ');
-                    //
-                    //var classReg = new RegExp("(^|\\s)(lt|gt)-\\d+\\S+", "g");
+                    //  Create regex that optionally uses prefixed classes
                     var classReg = new RegExp("(^|\\s)("+pf("lt", options)+"|"+pf("gt", options)+")-\\d+\\S+", "g");
-
                     return (css.match(classReg) || []).join(' ');
                 });
 
-                for(var i = options.start; i < options.end; i += options.step) {
+                for(var i = options.start; i < options.end + 1; i += options.step) {
                     if(width > i) {
                         $el.addClass(pf("gt-" + i, options));
                     }
@@ -106,5 +103,12 @@
             removeWatch($(el));
         });
     };
+
+    //  Find all data-responsive elements and watch them
+    $(function(){
+        $("[data-" + defaultOptions.baseClassName + "]").each(function(idx, el){
+            $(el).responsive();
+        });
+    }) 
 
 }(jQuery));
