@@ -1,7 +1,8 @@
 (function($){
     var defaultOptions = {
             baseClassName: "responsive",
-            prefixBaseClassName: false,
+            prefixClasses: false,
+            prefixSeparator: "-",
             addBaseClassNameToElement: true,
             applyStepClasses: true,
             step: 32,
@@ -13,8 +14,8 @@
         },
         //  Shortcur for prefixing classnames if required
         pf = function(className, options){
-            return options.prefixBaseClassName?
-                options.baseClassName + "-" + className:
+            return options.prefixClasses?
+                options.baseClassName + options.prefixSeparator + className:
                 className;
         },
         applyClasses = function ($el, width, options) {
@@ -23,17 +24,12 @@
             }
 
             $.each(options.breaks, function (key, o) {
-                var applyClass = true,
-                    className = pf(key, options);
+                var className = pf(key, options);
 
                 //  Remove any old classes
                 $el.removeClass(className);
 
-                if ((typeof o.min !== "undefined" && width < o.min) || (typeof o.max !== "undefined" && width > o.max)) {
-                    applyClass = false;
-                }
-
-                if (applyClass) {
+                if (!((typeof o.min !== "undefined" && width < o.min) || (typeof o.max !== "undefined" && width > o.max))) {
                     $el.addClass(className);
                 }
             });
@@ -74,7 +70,7 @@
         },
         responsive = function($el, args) {
             args = args || {};
-            var options = $.extend(defaultOptions, args);
+            var options = $.extend({}, defaultOptions, args);
             applyClasses($el, $el.innerWidth(), options);
             addWatch($el, options);
         },
@@ -107,7 +103,18 @@
     //  Find all data-responsive elements and watch them
     $(function(){
         $("[data-" + defaultOptions.baseClassName + "]").each(function(idx, el){
-            $(el).responsive();
+            var $el = $(el),
+                data = $el.data(defaultOptions.baseClassName),
+                options = {};
+
+            if(data && data !== "") {
+                try{
+                    var options = eval('('+data+')');
+                } catch(ex){
+                    window.console && window.console.warn("jquery.responsify options error: " +ex, $el);
+                }
+            }
+            $el.responsive(options);
         });
     }) 
 

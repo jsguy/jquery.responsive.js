@@ -13,18 +13,18 @@ Include jQuery and jquery.responsive.js
 
 Then initialise your element like so:
 
-```javascript
-$(".me").responsive();
+```html
+<div data-responsive>...</div>
 ```
 
-Your `.me` element will now have responsive classnames applied to base on it's width.
-For example if the element is larger than 128px, it will have "gt-128" as a class name, and if it is smaller than 192px in with, it will have "lt-192" as a class, plus anything in between, with steps of 32px up to lt-960. For example, say you have:
+Your element will now have responsive classnames applied, based on it's width.
+For example if the element is larger than 128px, it will have "gt-128" as a class name, and if it is smaller than 192px in width, it will have "lt-192" as a class, plus anything in between, with steps of 32px up to lt-960. For example, say you have:
 
 ```html
 <style>
 .me { width: 250px; }
 </style>
-<div class="me"></div>
+<div class="me" data-responsive></div>
 ```
 
 Then the following classnames will be applied to the DIV:
@@ -35,10 +35,27 @@ Then the following classnames will be applied to the DIV:
 
 Now you can use those class names to style your responsive content to within 32px accuracy!
 
-You can pass the following options to `.responsive()`:
+You can pass in options like so:
 
-* baseClassName - a classname to prefix, you must also set prefixBaseClassName to true, default value is "responsive"
-* prefixBaseClassName - boolean to set if we prefix all classnames with baseClassName, default is false
+```html
+<div data-responsive="{step: 16}">...</div>
+```
+
+This will change the steps to 16px at a time for the class names.
+
+You can also initialise elements diectly with javascript:
+
+```javascript
+$(document.body).responsive({step: 16});
+```
+
+This is useful, if you just want to emulate media queries, (eg: for IE8), or you have a single element that you want to make responsive, eg: a widget.
+
+You can pass the following options to `.responsive()` or via `data-responsive`:
+
+* baseClassName - a classname to prefix, you must also set prefixClasses to true, default value is "responsive"
+* prefixClasses - boolean to set if we prefix all classnames with baseClassName, default is false
+* prefixSeparator - string to set what to separate the prefix class names, default is "-"
 * addBaseClassNameToElement - boolean to choose if we add the baseClassName to our responsive element, default is true
 * applyStepClasses - boolean to see if we add the stepped class names, ie: gt-NUMBER, lt-NUMBER, default is true
 * step - how many pixels in between each step in step class names, default is 32
@@ -64,5 +81,5 @@ This will add the classname "big" to your element when it is at least 490px wide
 
 There are a few different use cases where this library might be useful:
 
-* You want to support IE8, (which doesn't honour media queries)
 * You want to make an element responsive, as opposed to using media queries which respond only to screen size
+* You want to support IE8, (which doesn't honour media queries) - simply prefix the  body tag, and you can use the responsive class names
