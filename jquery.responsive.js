@@ -1,3 +1,10 @@
+/* 
+    jquery responsive - make elements responsive, by dynamically adding class names to them based on width.
+
+    Copyright (C) 2015 jsguy
+
+    MIT Licensed http://en.wikipedia.org/wiki/MIT_License
+*/
 (function($){
     var defaultOptions = {
             baseClassName: "responsive",
@@ -23,11 +30,11 @@
                 $el.addClass(options.baseClassName);
             }
 
+            //  Remove any old classes
+            removeClasses($el, options);
+
             $.each(options.breaks, function (key, o) {
                 var className = pf(key, options);
-
-                //  Remove any old classes
-                $el.removeClass(className);
 
                 if (!((typeof o.min !== "undefined" && width < o.min) || (typeof o.max !== "undefined" && width > o.max))) {
                     $el.addClass(className);
@@ -35,13 +42,6 @@
             });
 
             if(options.applyStepClasses) {
-                //  Remove old gt/lt classes
-                $el.removeClass(function(index, css){
-                    //  Create regex that optionally uses prefixed classes
-                    var classReg = new RegExp("(^|\\s)("+pf("lt", options)+"|"+pf("gt", options)+")-\\d+\\S+", "g");
-                    return (css.match(classReg) || []).join(' ');
-                });
-
                 for(var i = options.start; i < options.end + 1; i += options.step) {
                     if(width > i) {
                         $el.addClass(pf("gt-" + i, options));
@@ -50,6 +50,22 @@
                         $el.addClass(pf("lt-" + i, options));
                     }
                 }
+            }
+        },
+        removeClasses = function($el, options){
+            $.each(options.breaks, function (key, o) {
+                var className = pf(key, options);
+
+                //  Remove any old classes
+                $el.removeClass(className);
+            });
+            if(options.applyStepClasses) {
+                //  Remove old gt/lt classes
+                $el.removeClass(function(index, css){
+                    //  Create regex that optionally uses prefixed classes
+                    var classReg = new RegExp("(^|\\s)("+pf("lt", options)+"|"+pf("gt", options)+")-\\d+\\S+", "g");
+                    return (css.match(classReg) || []).join(' ');
+                });
             }
         },
         watchList = [],
@@ -67,6 +83,29 @@
                     return;
                 }
             });
+        },
+        getWatch = function($el){
+            var myWatch;
+            $.each(watchList, function(idx, watch){
+                if(watch.$el.is($el)) {
+                    myWatch = watch;
+                    return false;
+                }
+            });
+            return myWatch;
+        },
+        getDataOptions = function($el, args){
+            var data = $el.data(args? args.baseClassName || defaultOptions.baseClassName: defaultOptions.baseClassName),
+                options = {};
+
+            if(data && data !== "") {
+                try{
+                    options = eval('('+data+')');
+                } catch(ex){
+                    window.console && window.console.warn("jquery.responsify options error: " +ex, $el);
+                }
+            }
+            return options;
         },
         responsive = function($el, args) {
             args = args || {};
@@ -90,13 +129,28 @@
 
     $.fn.responsive = function(args){
         $(this).each(function(idx, el) {
-            responsive($(el), args);
+            var $el = $(el),
+                dataOptions = getDataOptions($el, args);
+
+            if(dataOptions){
+                args = $.extend({}, dataOptions, args);
+            }
+
+            responsive($el, args);
         });
     };
 
     $.fn.unresponsive = function(){
         $(this).each(function(idx, el) {
-            removeWatch($(el));
+            var $el = $(el),
+                watch = getWatch($el);
+            if(watch) {
+                removeWatch($el);
+                removeClasses($el, watch.options);
+                if(watch.options.addBaseClassNameToElement) {
+                    $el.removeClass(watch.options.baseClassName);
+                }
+            }
         });
     };
 
@@ -104,16 +158,7 @@
     $(function(){
         $("[data-" + defaultOptions.baseClassName + "]").each(function(idx, el){
             var $el = $(el),
-                data = $el.data(defaultOptions.baseClassName),
-                options = {};
-
-            if(data && data !== "") {
-                try{
-                    var options = eval('('+data+')');
-                } catch(ex){
-                    window.console && window.console.warn("jquery.responsify options error: " +ex, $el);
-                }
-            }
+                options = getDataOptions($el);
             $el.responsive(options);
         });
     }) 
