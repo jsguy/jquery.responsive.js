@@ -2,6 +2,8 @@
 
 This plugin allows you to make elements responsive, by dynamically adding class names to them based on width.
 
+Example: http://jsguy.github.io/jquery.responsive.js/
+
 ## Usage
 
 Include jQuery and jquery.responsive.js
@@ -82,4 +84,44 @@ This will add the classname "big" to your element when it is at least 490px wide
 There are a few different use cases where this library might be useful:
 
 * You want to make an element responsive, as opposed to using media queries which respond only to screen size
+```javascript
+$('.me').responsive();
+```
+```css
+.me.gt320 {color: #f8f8f8}
+```
+
 * You want to support IE8, (which doesn't honour media queries) - simply prefix the  body tag, and you can use the responsive class names
+```javascript
+$(document.body).responsive();
+```
+```css
+body.gt320 {font-size: 1.1rem}
+```
+
+* You already have a custom set of responsive classes, but want control over when they are applied
+```javascript
+$(document.body).responsive({
+    breaks: {
+        "short": {
+            max: 320
+        },
+        "tall": {
+            min: 321,
+            max: 960
+        },
+        "grande": {
+            min: 961,
+            max: 1280
+        },
+        "venti": {
+            min: 1281
+        }
+    }
+});
+```
+```css
+body.venti {font-size: 20rem}
+```
+
+
